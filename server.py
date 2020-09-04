@@ -22,14 +22,11 @@ def submit_form():
 	if request.method == 'POST':
 		try:
 			data = request.form.to_dict()
-			print(f'\nEmail: {data["email"]}')
-			print(f'\nSubject: {data["subject"]}')
-			print(f'\nMessage: {data["message"]}')
 			email = EmailMessage() #objeto email
 			email['from'] = data["email"]
 			email ['to'] = 'carlos.e.carvalho@gmail.com'
 			email['subject'] = data["subject"]
-			email.set_content(data["message"])
+			email.set_content(data["message"]+data[email])
 			send_email(email)
 			return redirect('./thankyou.html')
 		except:
