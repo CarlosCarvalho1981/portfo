@@ -26,7 +26,7 @@ def submit_form():
 			email['from'] = data["email"]
 			email ['to'] = 'carlos.e.carvalho@gmail.com'
 			email['subject'] = data["subject"]
-			email.set_content(data["message"]+data[email])
+			email.set_content(data["message"]+data["email"])
 			send_email(email)
 			return redirect('./thankyou.html')
 		except:
