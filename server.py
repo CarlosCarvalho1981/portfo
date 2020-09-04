@@ -1,5 +1,10 @@
 from flask import Flask, render_template, request, redirect
 import csv
+import smtplib
+from email.message import EmailMessage
+from string import Template
+from pathlib import Path #os.path
+
 app = Flask(__name__)
 #print (__name__)
 
@@ -17,10 +22,18 @@ def submit_form():
 	if request.method == 'POST':
 		try:
 			data = request.form.to_dict()
-			write_to_csv(data)
-			return redirect('/thankyou.html')
+			print(f'\nEmail: {data["email"]}')
+			print(f'\nSubject: {data["subject"]}')
+			print(f'\nMessage: {data["message"]}')
+			email = EmailMessage() #objeto email
+			email['from'] = data["email"]
+			email ['to'] = 'carlos.e.carvalho@gmail.com'
+			email['subject'] = data["subject"]
+			email.set_content(data["message"])
+			send_email(email)
+			return redirect('./thankyou.html')
 		except:
-			return 'Did not save to database"'
+			return 'Did not send email'
 	else:
 		return 'Something went wrong.'
 
@@ -38,3 +51,14 @@ def  write_to_csv(data):
 		message = data["message"]
 		csv_writer = csv.writer(database2, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		csv_writer.writerow([email,subject,message])
+
+
+
+def send_email(email):
+	print("WE GOT HERE!!!")
+	with smtplib.SMTP(host='smtp.gmail.com', port=587) as smtp:
+		smtp.ehlo() #mensagem de olá
+		smtp.starttls() #tls é uma forma de criptografia
+		smtp.login('portfoliocarloscarvalho@gmail.com', 'AnaC0501')
+		smtp.send_message(email)
+		print('all good boss!')
