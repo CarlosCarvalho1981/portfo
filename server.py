@@ -56,6 +56,6 @@ def send_email(email):
 	with smtplib.SMTP(host='smtp.gmail.com', port=587) as smtp:
 		smtp.ehlo() #mensagem de olá
 		smtp.starttls() #tls é uma forma de criptografia
-		smtp.login('portfoliocarloscarvalho@gmail.com', 'AnaC0501')
+		smtp.login('portfoliocarloscarvalho@gmail.com', 'XXXXX')
 		smtp.send_message(email)
 		print('all good boss!')
